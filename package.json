@@ -1,0 +1,16 @@
+{
+  "name": "wpm-serve",
+  "version": "1.0.0",
+  "description": "wpm商品管理系统后端服务",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "author": "amingxiansen 1006934861@qq.com",
+  "license": "ISC",
+  "dependencies": {
+    "koa": "^2.13.1",
+    "koa-router": "7.0.0",
+    "koa-bodyparser": "3.2.0"
+  }
+}
