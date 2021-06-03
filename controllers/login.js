@@ -1,41 +1,52 @@
-const accessTokens = {
-    admin: 'admin-accessToken',
-    editor: 'editor-accessToken',
-    test: 'test-accessToken',
-}
 
-var fn_publicKey = async (ctx, next) => {
+// 引入jwt token工具
+const JwtUtil = require('../utils/jwt');
+const { ControlAPI_obj_async } = require('../config/db')
+const {publicKey, privateKey, key} = require('../utils/rsa')
+
+const fn_publicKey = async (ctx, next) => {
     ctx.response.body = {
         code: 200,
         msg: 'success',
         data: {
             mockServer: true,
-            publicKey: 'MIGfMA0GCSqGSIb3DQEBAQUAA4GNADCBiQKBgQDBT2vr+dhZElF73FJ6xiP181txKWUSNLPQQlid6DUJhGAOZblluafIdLmnUyKE8mMHhT3R+Ib3ssZcJku6Hn72yHYj/qPkCGFv0eFo7G+GJfDIUeDyalBN0QsuiE/XzPHJBuJDfRArOiWvH0BXOv5kpeXSXM8yTt5Na1jAYSiQ/wIDAQAB',
+            publicKey: publicKey,
         },
     }
 };
 
 
 const fn_login = async (ctx, next) => {
-    let {
-        username,
-        password
-    } = ctx.request.body;
-    const accessToken = accessTokens[username]
-    if (!accessToken) {
+    const body = ctx.request.body.param;
+    const decrypted = key.decrypt(body, 'utf8');
+    const {username, password} = JSON.parse(decrypted)
+    // const accessToken = accessTokens[username]
+    // 数据库验证
+    try{
+        const sql = `SELECT id FROM user WHERE (usercode='${username}' AND password='${password}')`
+        const result = await ControlAPI_obj_async(sql)
+        const data = JSON.parse(JSON.stringify(result))[0];
+        // 角色字段role传入并生成token
+        const jwt = new JwtUtil(data.id);
+        const token = jwt.generateToken();
+        if(!!data){
+            ctx.response.body = {
+                code: 200,
+                msg: 'success',
+                data: {accessToken: token},
+            }
+        }else {
+            ctx.response.body = {
+                code: 400,
+                msg: '帐户或密码不正确。'
+            }
+        }
+    }catch(err) {
         ctx.response.body = {
             code: 500,
-            msg: '帐户或密码不正确。',
+            msg: '接口异常，登陆失败',
+            data: err,
         }
-    } else {
-        ctx.response.body = {
-            code: 200,
-            msg: 'success',
-            data: {
-                accessToken
-            },
-        }
-
     }
 };
 

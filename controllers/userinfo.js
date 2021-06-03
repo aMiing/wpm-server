@@ -1,35 +1,38 @@
 
+// 引入jwt token工具
+const JwtUtil = require('../utils/jwt');
+const { ControlAPI_obj_async } = require('../config/db')
 // 获取用户基本信息，返回登录状态
 const fn_userinfo = async (ctx, next) => {
     const {
         accessToken
     } = ctx.request.body
-    let permissions = ['admin']
-    let username = 'admin'
-    if ('admin-accessToken' === accessToken) {
-        permissions = ['admin']
-        username = 'admin'
-    }
-    if ('editor-accessToken' === accessToken) {
-        permissions = ['editor']
-        username = 'editor'
-    }
-    if ('test-accessToken' === accessToken) {
-        permissions = ['admin', 'editor']
-        username = 'test'
-    }
-
-    ctx.response.body = {
-        code: 200,
-        msg: 'success',
-        data: {
-            permissions,
-            username,
-            'avatar': 'https://i.gtimg.cn/club/item/face/img/8/15918_100.gif',
-        },
+    let jwt = new JwtUtil(accessToken);
+    let id = jwt.verifyToken();
+    try{
+        const sql = `SELECT permissions,name FROM user WHERE id='${id}'`
+        const result = await ControlAPI_obj_async(sql)
+        const {permissions, name} = JSON.parse(JSON.stringify(result))[0];
+        ctx.response.body = {
+            code: 200,
+            msg: 'success',
+            data: {
+                permissions: JSON.parse(permissions),
+                username: name,
+                'avatar': 'https://i.gtimg.cn/club/item/face/img/8/15918_100.gif',
+            },
+        }
+    }catch(err) {
+        ctx.response.body = {
+            code: 500,
+            msg: 'error',
+            data: err,
+        }
     }
 };
 
 module.exports = {
     'POST /api/userInfo': fn_userinfo,
 };
+
+

@@ -1,41 +1,105 @@
-const { mock } = require('mockjs')
+const {
+    ControlAPI_obj_async
+} = require('../config/db')
+const {
+    v4: uuidv4
+} = require('uuid');
 
-const List = []
-const count = 888
-let num = 0
-for (let i = 0; i < count; i++) {
-    List.push(
-        mock({
-            uuid: '@uuid',
-            img: `https://picsum.photos/120/90?random=${num++}`,
-            title: '@ctitle',
-            description: '@csentence',
-            // 'status|1': ['on', 'off'],
-            author: '@cname', //厂商
-            datetime: '@datetime',
-            pageViews: '@integer(0, 5000)',
-            switch: '@boolean',
-            price: '@integer(80,99)',
-            saled: 0,
-        })
-    )
-}
 
 // 获取商品列表
 const fn_getList = async (ctx, next) => {
     ctx.response.head = "text/plain; charset=UTF-8";
-    ctx.response.body = {
-        code: 200,
-        msg: 'success',
-        totalCount: count,
-        data: List,
-    };
+    const sql = 'SELECT * FROM goods WHERE deleted=1';
+    try {
+        const data = await ControlAPI_obj_async(sql, null)
+        ctx.response.body = {
+            code: 200,
+            msg: '获取商品列表成功！',
+            data,
+        };
+    } catch (err) {
+        ctx.response.body = {
+            code: 500,
+            msg: 'error',
+            data: err,
+        };
+    }
 };
+// 新增商品
+const createGoods = async (ctx, next) => {
+    const sql = 'INSERT INTO goods SET ?';
+    const row = ctx.request.body;
+    row.uuid = uuidv4();
+    try {
+        await ControlAPI_obj_async(sql, row)
+        data = await ControlAPI_obj_async(`SELECT * FROM goods WHERE uuid='${row.uuid}'`)
+
+        ctx.response.body = {
+            code: 200,
+            msg: '新增商品成功！',
+            data,
+        };
+    } catch (err) {
+        ctx.response.body = {
+            code: 500,
+            msg: 'error',
+            data: err,
+        };
+    }
+};
+
+// 更新商品信息
+const updateGoods = async (ctx, next) => {
+    const row = ctx.request.body;
+    console.log('update', row)
+    const sql = `UPDATE goods SET name='${row.name}',price='${row.price}',stock='${row.stock||0}',author='${row.author}',type='${row.type}',online='${row.online || 0}' WHERE uuid='${row.uuid}'`;
+    try {
+        await ControlAPI_obj_async(sql, row)
+        data = await ControlAPI_obj_async(`SELECT * FROM goods WHERE uuid='${row.uuid}'`)
+        ctx.response.body = {
+            code: 200,
+            msg: '更新商品信息成功！',
+            data,
+        };
+    } catch (err) {
+        ctx.response.body = {
+            code: 500,
+            msg: 'error',
+            data: err,
+        };
+    }
+};
+// 删除商品
+const deleteGoods = async (ctx, next) => {
+    const ids = ctx.request.body.uuid.split(',');
+    const sql = `UPDATE goods SET deleted=2 WHERE uuid=`;
+    try {
+        ids.forEach(async (id) => {
+            await ControlAPI_obj_async(sql + `'${id}'`)
+        });
+        ctx.response.body = {
+            code: 200,
+            msg: '删除商品成功！',
+        };
+    } catch (err) {
+        ctx.response.body = {
+            code: 500,
+            msg: 'error',
+            data: err,
+        };
+    }
+};
+
 // 重置商品库存
 const fn_resetStock = async (ctx, next) => {
     // 更新数据库
+    const body = ctx.request.body;
     try {
-        // await resetDatasetStock()
+        Object.keys(body).forEach(async (e) => {
+            const ele = body[e]
+            const sql = `UPDATE goods SET stock='${ele.stock - ele.saled}' WHERE uuid='${ele.uuid}'`;
+            await ControlAPI_obj_async(sql, ele)
+        })
         ctx.response.body = {
             code: 200,
             msg: '重置库存成功！'
@@ -47,26 +111,12 @@ const fn_resetStock = async (ctx, next) => {
         }
     }
 }
-// 上下架操作
-const doOffOrOn = async (ctx, next) => {
-    const goods = ctx.request.body;
-    try {
-        // await resetDatasetStock()
-        ctx.response.body = {
-            code: 200,
-            msg: (goods.switch?'上':'下')+'下架操作成功！'
-        }
-    } catch (err) {
-        ctx.response.body = {
-            code: 500,
-            msg: err
-        }
-    }
-}
+
 
 module.exports = {
     'GET /api/goods/getList': fn_getList,
     'POST /api/goods/resetStock': fn_resetStock,
-    'POST /api/goods/doOffOrOn': doOffOrOn,
-    
+    'POST /api/goods/create': createGoods,
+    'POST /api/goods/update': updateGoods,
+    'POST /api/goods/delete': deleteGoods,
 };

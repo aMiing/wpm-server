@@ -9,10 +9,19 @@
   "author": "amingxiansen 1006934861@qq.com",
   "license": "ISC",
   "dependencies": {
+    "jsencrypt": "^3.2.0",
+    "jsonwebtoken": "^8.5.1",
     "koa": "^2.13.1",
     "koa-bodyparser": "^3.2.0",
     "koa-router": "7.0.0",
+    "koa2-cors": "^2.0.6",
     "mockjs": "^1.1.0",
-    "mysql": "^2.18.1"
+    "mongodb": "^3.6.9",
+    "mongoose": "^5.12.11",
+    "mysql": "^2.18.1",
+    "mysql2": "^2.2.5",
+    "node-rsa": "^1.1.1",
+    "sequelize": "^6.6.2",
+    "uuid": "^8.3.2"
   }
 }
