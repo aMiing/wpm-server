@@ -1,4 +1,3 @@
-
 const mysql = require('mysql')
 
 const db = mysql.createConnection({
@@ -7,10 +6,11 @@ const db = mysql.createConnection({
     user: 'wpm',
     password: 'wpm123456',
     database: 'wpm',
+    multipleStatements: true,
 })
 
 db.connect(err => {
-    if(err) throw err;
+    if (err) throw err;
     console.log('连接数据库成功')
 })
 
@@ -20,10 +20,10 @@ sql: SQL语句，string类型
 args：SQL语句中的参数，Array类型
 callback：异步回调函数
 */
-function dataBaseControl(sql, args, callback){
-    if(args == null || args.length == 0){
-        db.query(sql, function(error, results, fields){
-            if(error){
+function dataBaseControl(sql, args, callback) {
+    if (args == null || args.length == 0) {
+        db.query(sql, function (error, results, fields) {
+            if (error) {
                 console.error(error);
                 callback(null);
                 return;
@@ -31,8 +31,8 @@ function dataBaseControl(sql, args, callback){
             callback(results);
         });
     } else {
-        db.query(sql, args, function(error, results, fields){
-            if(error){
+        db.query(sql, args, function (error, results, fields) {
+            if (error) {
                 console.error(error);
                 callback(null);
                 return;
@@ -52,18 +52,21 @@ return：语句执行结果
 */
 
 // 传入单条SQL语句
-const ControlAPI_obj_async = function(sql, args) {
-	return new Promise((resolved, rejected)=>{
-		dataBaseControl(sql, args, (result)=>{
-			if (result === null) {
-				rejected(null);
-			} else {
-				resolved(result);
-			}
-		});
-	});
+const ControlAPI_obj_async = function (sql, args) {
+    return new Promise((resolved, rejected) => {
+        dataBaseControl(sql, args, (result) => {
+            if (result === null) {
+                rejected(null);
+            } else {
+                resolved(result);
+            }
+        });
+    });
 }
 
 
 
-module.exports = {ControlAPI_obj_async}
+
+module.exports = {
+    ControlAPI_obj_async
+}
