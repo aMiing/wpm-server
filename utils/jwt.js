@@ -18,7 +18,7 @@ class Jwt {
         let cert = privateKey; //私钥 可以自己生成
         let token = jwt.sign({
             data,
-            exp: created + 60 * 30, //过期时间
+            exp: created + 60 * 60 * 24, //过期时间
         }, cert, {
             algorithm: 'RS256'
         });
