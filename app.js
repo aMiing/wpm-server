@@ -32,5 +32,6 @@ app.use(async (ctx, next) => {
 // // add controllers:
 app.use(controller());
 
-app.listen(3000);
-console.log('app started at port 3000...');
+app.listen(3000, '0.0.0.0', () => {
+    console.log('app started at port 3000...');
+});

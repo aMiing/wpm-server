@@ -9,6 +9,7 @@
   "author": "amingxiansen 1006934861@qq.com",
   "license": "ISC",
   "dependencies": {
+    "axios": "^0.21.1",
     "jsencrypt": "^3.2.0",
     "jsonwebtoken": "^8.5.1",
     "koa": "^2.13.1",

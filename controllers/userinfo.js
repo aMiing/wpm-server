@@ -1,6 +1,7 @@
 // 引入jwt token工具
 const JwtUtil = require('../utils/jwt');
 const fs = require('fs')
+const axios = require('axios');
 const {
     ControlAPI_obj_async
 } = require('../config/db')
@@ -11,7 +12,7 @@ const fn_userinfo = async (ctx, next) => {
     } = ctx.request.body
     let jwt = new JwtUtil(accessToken);
     let id = jwt.verifyToken();
-    writeLog(ctx.request.header)
+    writeLog(ctx)
     console.log('id为：', id, '的用户登录成功！')
     if (id === 'err') {
         ctx.response.body = {
@@ -45,10 +46,19 @@ const fn_userinfo = async (ctx, next) => {
     }
 };
 
-function writeLog(header) {
+async function writeLog(ctx) {
     const time = new Date().toLocaleString();
+    const ip = getClientIP(ctx.request);
+    console.log('test ip', ip)
+    const {
+        data: {
+            city,
+            province
+        }
+    } = await getPos(ip);
+    console.log(city, province)
     fs.appendFile('./log/login_info.txt',
-        '登录时间：[' + time + ']' + '\n origin:' + header.origin + '\n sec-ch-ua: ' + header['sec-ch-ua'] + '\n----------------------------\n',
+        '登录时间：[' + time + ']' + '\n 访问ip:' + ip + '\n 地理位置: ' + province + ',' + city + '\n----------------------------\n',
         function (error) {
             if (error) {
                 console.log('日志写入失败', error)
@@ -57,6 +67,25 @@ function writeLog(header) {
             }
         })
 }
+
+function getClientIP(req) {
+    let ip = req.headers['x-forwarded-for'] || // 判断是否有反向代理 IP
+        req.ip ||
+        req.connection.remoteAddress || // 判断 connection 的远程 IP
+        req.socket.remoteAddress || // 判断后端的 socket 的 IP
+        req.connection.socket.remoteAddress || ''
+    if (ip) {
+        ip = ip.replace('::ffff:', '')
+    }
+    return ip;
+};
+
+function getPos() {
+    const url = 'https://restapi.amap.com/v3/ip?ip=114.247.50.2&key=0242a619c9de44968f3cb7a4ce02f687'
+    return axios.get(url)
+}
+
+
 
 module.exports = {
     'POST /api/userInfo': fn_userinfo,
