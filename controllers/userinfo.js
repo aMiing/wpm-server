@@ -80,8 +80,8 @@ function getClientIP(req) {
     return ip;
 };
 
-function getPos() {
-    const url = 'https://restapi.amap.com/v3/ip?ip=114.247.50.2&key=0242a619c9de44968f3cb7a4ce02f687'
+function getPos(ip) {
+    const url = 'https://restapi.amap.com/v3/ip?ip=' + ip + '&key=0242a619c9de44968f3cb7a4ce02f687'
     return axios.get(url)
 }
 
