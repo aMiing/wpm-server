@@ -2,6 +2,7 @@
 const JwtUtil = require('../utils/jwt');
 const fs = require('fs')
 const axios = require('axios');
+const path = require('path')
 const {
     ControlAPI_obj_async
 } = require('../config/db')
@@ -47,9 +48,9 @@ const fn_userinfo = async (ctx, next) => {
 };
 
 async function writeLog(ctx) {
+    const log_dir = __dirname.slice(0, -22) + 'logs/login_logs.txt'
     const time = new Date().toLocaleString();
     const ip = getClientIP(ctx.request);
-    console.log('test ip', ip)
     const {
         data: {
             city,
@@ -57,7 +58,7 @@ async function writeLog(ctx) {
         }
     } = await getPos(ip);
     console.log(city, province)
-    fs.appendFile('./log/login_info.txt',
+    fs.appendFile(log_dir,
         '登录时间：[' + time + ']' + '\n 访问ip:' + ip + '\n 地理位置: ' + province + ',' + city + '\n----------------------------\n',
         function (error) {
             if (error) {
