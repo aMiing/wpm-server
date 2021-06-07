@@ -1,5 +1,6 @@
 // 引入jwt token工具
 const JwtUtil = require('../utils/jwt');
+const fs = require('fs')
 const {
     ControlAPI_obj_async
 } = require('../config/db')
@@ -10,7 +11,8 @@ const fn_userinfo = async (ctx, next) => {
     } = ctx.request.body
     let jwt = new JwtUtil(accessToken);
     let id = jwt.verifyToken();
-    console.log('id', id)
+    writeLog(ctx.request.header)
+    console.log('id为：', id, '的用户登录成功！')
     if (id === 'err') {
         ctx.response.body = {
             code: 403,
@@ -42,6 +44,19 @@ const fn_userinfo = async (ctx, next) => {
         }
     }
 };
+
+function writeLog(header) {
+    const time = new Date().toLocaleString();
+    fs.appendFile('./log/login_info.txt',
+        '登录时间：[' + time + ']' + '\n origin:' + header.origin + '\n sec-ch-ua: ' + header['sec-ch-ua'] + '\n----------------------------\n',
+        function (error) {
+            if (error) {
+                console.log('日志写入失败', error)
+            } else {
+                console.log('日志写入成功了')
+            }
+        })
+}
 
 module.exports = {
     'POST /api/userInfo': fn_userinfo,

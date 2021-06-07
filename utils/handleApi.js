@@ -12,10 +12,9 @@ const handleApi = (ctx) => {
             const token = ctx.request.headers.accesstoken
             let jwt = new JwtUtil(token);
             let id = jwt.verifyToken();
-            console.log('id', id)
             if (id == 'err') {
                 return false;
-            }else{
+            } else {
                 return true;
             }
         } catch (err) {

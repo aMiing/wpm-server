@@ -57,7 +57,6 @@ const createOrder = async (ctx, next) => {
 // 更新订单信息
 const updateOrder = async (ctx, next) => {
     const row = ctx.request.body;
-    console.log('update', row)
     const sql = `UPDATE orders SET name='${row.name}',price='${row.price}',stock='${row.stock||0}',author='${row.author}',type='${row.type}',online='${row.online || 0}' WHERE uuid='${row.uuid}'`;
     try {
         await ControlAPI_obj_async(sql, row)
