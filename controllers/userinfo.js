@@ -13,8 +13,6 @@ const fn_userinfo = async (ctx, next) => {
     } = ctx.request.body
     let jwt = new JwtUtil(accessToken);
     let id = jwt.verifyToken();
-    writeLog(ctx)
-    console.log('id为：', id, '的用户登录成功！')
     if (id === 'err') {
         ctx.response.body = {
             code: 403,
@@ -45,6 +43,9 @@ const fn_userinfo = async (ctx, next) => {
             data: err,
         }
     }
+
+    writeLog(ctx)
+    console.log('id为：', id, '的用户登录成功！')
 };
 
 async function writeLog(ctx) {

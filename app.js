@@ -9,12 +9,14 @@ const serve = require("koa-static");
 // parse request body:
 const bodyParser = require('koa-bodyparser');
 const app = new Koa();
+const pub_dir = __dirname.slice(0, -10)
 // 可以指定多个静态目录
-app.use(serve(__dirname + '/public/'));
+app.use(serve(pub_dir + 'fe-public/'));
 
 app.use(bodyParser());
 app.use(cors());
-app.use(views(path.resolve(__dirname + '/public/')));
+console.log('pub_dir', pub_dir)
+app.use(views(path.resolve(pub_dir + 'fe-public/')));
 
 // log request URL:
 app.use(async (ctx, next) => {
