@@ -1,5 +1,6 @@
 const Koa = require('koa');
 var cors = require('koa2-cors');
+// const koaBody = require('koa-body');
 
 const path = require("path")
 const views = require("koa-views")
@@ -9,15 +10,21 @@ const serve = require("koa-static");
 // parse request body:
 const bodyParser = require('koa-bodyparser');
 const app = new Koa();
-const pub_dir = __dirname.slice(0, -10)
+const pub_dir = __dirname.split('/').slice(0, -1).join('/');
+
 // 可以指定多个静态目录
-app.use(serve(pub_dir + 'fe-public/'));
+app.use(serve(pub_dir + '/fe-public/'));
+app.use(serve(pub_dir + '/customer-upload/'));
 
 app.use(bodyParser());
 app.use(cors());
-console.log('pub_dir', pub_dir)
-app.use(views(path.resolve(pub_dir + 'fe-public/')));
-
+app.use(views(path.resolve(pub_dir + '/fe-public/')));
+// app.use(koaBody({
+//     multipart: true,
+//     formidable: {
+//         maxFileSize: 200 * 1024 * 1024
+//     }
+// }));
 // log request URL:
 app.use(async (ctx, next) => {
     // console.log(`Process ${ctx.request.method} ${ctx.request.url}...`);

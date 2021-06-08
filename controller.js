@@ -1,5 +1,5 @@
 const fs = require('fs');
-
+const upload = require('./utils/getpath.js')
 // add url-route in /controllers:
 
 function addMapping(router, mapping) {
@@ -9,7 +9,11 @@ function addMapping(router, mapping) {
             router.get(path, mapping[url]);
         } else if (url.startsWith('POST ')) {
             var path = url.substring(5);
-            router.post(path, mapping[url]);
+            if (path.startsWith('/api/upload/')) {
+                router.post(path, upload.single('file'), mapping[url]);
+            } else {
+                router.post(path, mapping[url]);
+            }
         } else if (url.startsWith('PUT ')) {
             var path = url.substring(4);
             router.put(path, mapping[url]);

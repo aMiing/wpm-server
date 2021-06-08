@@ -5,7 +5,7 @@
  */
 // 引入jwt token工具
 const JwtUtil = require('../utils/jwt');
-const noRegister = ['/api/login', '/api/login', '/api/publicKey', '/api/getLogin_logs']
+const noRegister = ['/api/login', '/api/login', '/api/publicKey', '/api/getLogin_logs', '/api/upload/uploadImg']
 const handleApi = (ctx) => {
     if (!noRegister.includes(ctx.request.url)) {
         try {
