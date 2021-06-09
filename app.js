@@ -10,15 +10,15 @@ const serve = require("koa-static");
 // parse request body:
 const bodyParser = require('koa-bodyparser');
 const app = new Koa();
-const pub_dir = __dirname.split('/').slice(0, -1).join('/');
+const pub_dir = __dirname.slice(0, -10);
 
 // 可以指定多个静态目录
-app.use(serve(pub_dir + '/fe-public/'));
-app.use(serve(pub_dir + '/customer-upload/'));
+app.use(serve(pub_dir + 'fe-public/'));
+app.use(serve(pub_dir + 'customer-upload/'));
 
 app.use(bodyParser());
 app.use(cors());
-app.use(views(path.resolve(pub_dir + '/fe-public/')));
+app.use(views(path.resolve(pub_dir + 'fe-public/')));
 // app.use(koaBody({
 //     multipart: true,
 //     formidable: {
