@@ -8,7 +8,6 @@ const db = require('../config/query');
 // 引入sequelize对象
 const Sequelize = db.sequelize;
 
-// console.log('Sequelize', Sequelize)
 
 // 引入数据表模型
 const goods = require('../schema/goods')(Sequelize, DataTypes);

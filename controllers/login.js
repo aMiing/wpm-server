@@ -3,6 +3,7 @@ const JwtUtil = require('../utils/jwt');
 const {
     ControlAPI_obj_async
 } = require('../config/query')
+const writeLogs = require('../utils/recordLogs')
 const {
     publicKey,
     privateKey,
@@ -58,6 +59,7 @@ const fn_login = async (ctx, next) => {
             data: err,
         }
     }
+    writeLogs(ctx)
 };
 
 

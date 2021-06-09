@@ -7,7 +7,7 @@
 const JwtUtil = require('../utils/jwt');
 const noRegister = ['/api/login', '/api/login', '/api/publicKey', '/api/getLogin_logs', '/api/upload/uploadImg']
 const handleApi = (ctx) => {
-    if (!noRegister.includes(ctx.request.url)) {
+    if (!noRegister.some(e => ctx.request.url.startsWith(e))) {
         try {
             const token = ctx.request.headers.accesstoken
             let jwt = new JwtUtil(token);

@@ -1,33 +1,30 @@
 const Koa = require('koa');
-var cors = require('koa2-cors');
-// const koaBody = require('koa-body');
-
+const cors = require('koa2-cors');
 const path = require("path")
 const views = require("koa-views")
+const serve = require("koa-static");
+const bodyParser = require('koa-bodyparser');
+const fs = require('fs')
+
 const controller = require('./controller');
 const vertifyToken = require('./utils/handleApi')
-const serve = require("koa-static");
+const createFolder = require('./utils/createFolder.js')
 // parse request body:
-const bodyParser = require('koa-bodyparser');
 const app = new Koa();
-const pub_dir = __dirname.slice(0, -10);
+const base_dir = __dirname.slice(0, -10);
+// 创建用于存放用户上传文件的文件夹
+createFolder('Data/customer-upload/test.txt')
 
 // 可以指定多个静态目录
-app.use(serve(pub_dir + 'fe-public/'));
-app.use(serve(pub_dir + 'customer-upload/'));
+app.use(serve(base_dir + 'fe-public/'));
+app.use(serve('Data/customer-upload/'));
 
 app.use(bodyParser());
 app.use(cors());
-app.use(views(path.resolve(pub_dir + 'fe-public/')));
-// app.use(koaBody({
-//     multipart: true,
-//     formidable: {
-//         maxFileSize: 200 * 1024 * 1024
-//     }
-// }));
+app.use(views(path.resolve(base_dir + 'fe-public/')));
+
 // log request URL:
 app.use(async (ctx, next) => {
-    // console.log(`Process ${ctx.request.method} ${ctx.request.url}...`);
     const active = vertifyToken(ctx)
     if (active) await next();
     else {
@@ -38,7 +35,7 @@ app.use(async (ctx, next) => {
     }
 });
 
-// // add controllers:
+// add controllers:
 app.use(controller());
 
 app.listen(3000, '0.0.0.0', () => {
