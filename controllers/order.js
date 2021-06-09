@@ -1,6 +1,6 @@
 const {
     ControlAPI_obj_async
-} = require('../config/db')
+} = require('../config/query')
 const {
     v4: uuidv4
 } = require('uuid');

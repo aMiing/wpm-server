@@ -2,7 +2,7 @@
 const JwtUtil = require('../utils/jwt');
 const {
     ControlAPI_obj_async
-} = require('../config/db')
+} = require('../config/query')
 const {
     publicKey,
     privateKey,

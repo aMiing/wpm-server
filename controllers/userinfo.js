@@ -5,7 +5,7 @@ const axios = require('axios');
 const path = require('path')
 const {
     ControlAPI_obj_async
-} = require('../config/db')
+} = require('../config/query')
 // 获取用户基本信息，返回登录状态
 const fn_userinfo = async (ctx, next) => {
     const {
