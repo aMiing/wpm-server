@@ -29,5 +29,14 @@
     "path": "^0.12.7",
     "sequelize": "^6.6.2",
     "uuid": "^8.3.2"
-  }
+  },
+  "devDependencies": {},
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/aMiing/wpm-server.git"
+  },
+  "bugs": {
+    "url": "https://github.com/aMiing/wpm-server/issues"
+  },
+  "homepage": "https://github.com/aMiing/wpm-server#readme"
 }
