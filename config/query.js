@@ -1,4 +1,13 @@
-const conn = require('./db.js')()
+const pool = require('./db.js')
+// 封装
+const Query = function (sql, callback) {
+    pool.getConnection(function (err, connection) {
+        connection.query(sql, function (err, results) {
+            callback(err, results) // 结果回调
+            connection.release() // 释放连接资源 | 跟 connection.destroy() 不同，它是销毁
+        })
+    })
+}
 
 /*
 参数说明：
@@ -9,7 +18,6 @@ sqlObj: SQL语句结构体，Object类型
 }
 return：语句执行结果
 */
-
 // 传入单条SQL语句
 const ControlAPI_obj_async = function (sql, args) {
     return new Promise((resolved, rejected) => {
@@ -30,7 +38,7 @@ callback：异步回调函数
 */
 function dataBaseControl(sql, args, callback) {
     if (args == null || args.length == 0) {
-        conn.query(sql, function (error, results, fields) {
+        Query(sql, function (error, results) {
             if (error) {
                 console.error(error);
                 callback(null);
@@ -39,7 +47,7 @@ function dataBaseControl(sql, args, callback) {
             callback(results);
         });
     } else {
-        conn.query(sql, args, function (error, results, fields) {
+        Query(sql, args, function (error, results) {
             if (error) {
                 console.error(error);
                 callback(null);

@@ -2,7 +2,6 @@ const axios = require('axios');
 const fs = require('fs')
 const createFolder = require('./createFolder')
 
-// writeLog(ctx)
 async function writeLogs(ctx) {
     const today = (new Date().toLocaleDateString()).split('/').join('-');
     const log_dir = 'Data/logs/' + today + '_logs.txt';
@@ -18,7 +17,7 @@ async function writeLogs(ctx) {
     fs.appendFile(log_dir,
         '登录时间：[' + time + ']' + '\n 访问ip:' + ip + '\n 地理位置: ' + province + ',' + city + '\n----------------------------\n',
         function (error) {
-            console.log('日志写入失败', error)
+            error && console.log(error)
         })
 }
 
