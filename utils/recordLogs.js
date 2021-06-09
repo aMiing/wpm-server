@@ -1,10 +1,11 @@
 const axios = require('axios');
 const fs = require('fs')
 const createFolder = require('./createFolder')
+const path = require("path")
 
 async function writeLogs(ctx) {
     const today = (new Date().toLocaleDateString()).split('/').join('-');
-    const log_dir = 'Data/logs/' + today + '_logs.txt';
+    const log_dir = 'Data' + path.sep + 'logs' + path.sep + today + '_logs.txt';
     createFolder(log_dir)
     const time = new Date().toLocaleString();
     const ip = getClientIP(ctx.request);

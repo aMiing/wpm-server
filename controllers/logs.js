@@ -1,4 +1,5 @@
 const fs = require('fs')
+const path = require("path")
 
 // 获取用户基本信息，返回登录状态
 const fn_getLogs = async (ctx, next) => {
@@ -19,7 +20,7 @@ const fn_getLogs = async (ctx, next) => {
 
 async function readLogs(day) {
     const tar_day = day || (new Date().toLocaleDateString()).split('/').join('-');
-    const log_dir = 'Data/logs/' + tar_day + '_logs.txt'
+    const log_dir = 'Data' + path.sep + 'logs' + path.sep + tar_day + '_logs.txt'
     return fs.readFileSync(log_dir, 'utf-8')
 }
 

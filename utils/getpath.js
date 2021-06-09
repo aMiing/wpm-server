@@ -1,11 +1,12 @@
 //getpath.js
 const multer = require('koa-multer')
+const path = require("path")
 
 //配置
 var storage = multer.diskStorage({
     //文件保存路径
     destination: function (req, file, cb) {
-        cb(null, 'Data/customer-upload') //path.resolve('public/phoneManageSystem')
+        cb(null, 'Data' + path.sep + 'customer-upload') //path.resolve('public/phoneManageSystem')
     },
     //修改文件名称
     filename: function (req, file, cb) {
