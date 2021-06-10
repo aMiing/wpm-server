@@ -15,4 +15,5 @@ net start mysql57
  
 TIMEOUT /T 3
 @echo off
-start cmd /k "node C:\Users\Administrator\Documents\repository\wpm-server\app.js"
+start cmd /k "pm2 stop all"
+start cmd /k "pm2 start app.js"
