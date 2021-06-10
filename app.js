@@ -13,11 +13,11 @@ const createFolder = require('./utils/createFolder.js')
 const app = new Koa();
 const base_dir = __dirname.slice(0, -10);
 // 创建用于存放用户上传文件的文件夹
-createFolder('Data' + path.sep + 'customer-upload' + path.sep + 'test.txt')
+createFolder('public' + path.sep + 'customer-upload' + path.sep + 'test.txt')
 
 // 可以指定多个静态目录
 app.use(serve(base_dir + 'fe-public' + path.sep));
-app.use(serve('Data' + path.sep + 'customer-upload' + path.sep));
+app.use(serve('public' + path.sep));
 
 app.use(bodyParser());
 app.use(cors());

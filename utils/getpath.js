@@ -6,7 +6,7 @@ const path = require("path")
 var storage = multer.diskStorage({
     //文件保存路径
     destination: function (req, file, cb) {
-        cb(null, 'Data' + path.sep + 'customer-upload') //path.resolve('public/phoneManageSystem')
+        cb(null, 'public' + path.sep + 'customer-upload') //path.resolve('public/phoneManageSystem')
     },
     //修改文件名称
     filename: function (req, file, cb) {

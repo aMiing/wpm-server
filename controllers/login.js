@@ -32,8 +32,8 @@ const fn_login = async (ctx, next) => {
     // const accessToken = accessTokens[username]
     // 数据库验证
     try {
-        const sql = `SELECT id FROM user WHERE (usercode='${username}' AND password='${password}')`
-        const result = await ControlAPI_obj_async(sql)
+        const sql = `SELECT id FROM user WHERE (usercode=? AND password=?)`
+        const result = await ControlAPI_obj_async(sql, [username, password])
         const data = JSON.parse(JSON.stringify(result))[0];
         // 角色字段role传入并生成token
         const jwt = new JwtUtil(data.id);

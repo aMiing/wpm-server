@@ -1,8 +1,8 @@
 const pool = require('./db.js')
 // 封装
-const Query = function (sql, callback) {
+const Query = function (sql, params, callback) {
     pool.getConnection(function (err, connection) {
-        connection.query(sql, function (err, results) {
+        connection.query(sql, params, function (err, results) {
             callback(err, results) // 结果回调
             connection.release() // 释放连接资源 | 跟 connection.destroy() 不同，它是销毁
         })
@@ -38,7 +38,7 @@ callback：异步回调函数
 */
 function dataBaseControl(sql, args, callback) {
     if (args == null || args.length == 0) {
-        Query(sql, function (error, results) {
+        Query(sql, null, function (error, results) {
             if (error) {
                 console.error(error);
                 callback(null);

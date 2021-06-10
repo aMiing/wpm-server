@@ -57,10 +57,10 @@ const createOrder = async (ctx, next) => {
 // 更新订单信息
 const updateOrder = async (ctx, next) => {
     const row = ctx.request.body;
-    const sql = `UPDATE orders SET name='${row.name}',price='${row.price}',stock='${row.stock||0}',author='${row.author}',type='${row.type}',online='${row.online || 0}' WHERE uuid='${row.uuid}'`;
+    const sql = `UPDATE orders SET ? WHERE uuid=?`;
     try {
-        await ControlAPI_obj_async(sql, row)
-        data = await ControlAPI_obj_async(`SELECT * FROM orders WHERE uuid='${row.uuid}'`)
+        await ControlAPI_obj_async(sql, [row, row.uuid])
+        data = await ControlAPI_obj_async(`SELECT * FROM orders WHERE uuid=?`, row.uuid)
         ctx.response.body = {
             code: 200,
             msg: '更新订单信息成功！',

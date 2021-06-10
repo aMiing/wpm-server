@@ -20,8 +20,8 @@ const fn_userinfo = async (ctx, next) => {
         return false;
     }
     try {
-        const sql = `SELECT permissions,name,sys_name,sys_logo FROM user WHERE id='${id}'`
-        const data = await ControlAPI_obj_async(sql)
+        const sql = `SELECT permissions,name,sys_name,sys_logo FROM user WHERE id=?`
+        const data = await ControlAPI_obj_async(sql, id)
         // const {
         //     permissions,
         //     name
@@ -46,16 +46,13 @@ const fn_userinfo = async (ctx, next) => {
 
 
 async function fn_updateSysInfo(ctx) {
-    const {
-        sys_name,
-        sys_logo
-    } = ctx.request.body;
+    const params = ctx.request.body;
     const accessToken = ctx.request.headers.accesstoken;
     let jwt = new JwtUtil(accessToken);
     let id = jwt.verifyToken();
-    const sql = `UPDATE user SET sys_name='${sys_name}', sys_logo='${sys_logo}' WHERE id='${id}'`
+    const sql = `UPDATE user SET ?`
     try {
-        await ControlAPI_obj_async(sql)
+        await ControlAPI_obj_async(sql, params)
         ctx.response.body = {
             code: 200,
             msg: 'success'
