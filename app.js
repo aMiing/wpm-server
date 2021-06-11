@@ -16,12 +16,12 @@ const base_dir = __dirname.slice(0, -10);
 createFolder('public' + path.sep + 'customer-upload' + path.sep + 'test.txt')
 
 // 可以指定多个静态目录
-app.use(serve(base_dir + 'fe-public' + path.sep));
+app.use(serve(base_dir + 'fe-public' + path.sep + 'dist' + path.sep));
 app.use(serve('public' + path.sep));
 
 app.use(bodyParser());
 app.use(cors());
-app.use(views(path.resolve(base_dir + 'fe-public' + path.sep)));
+app.use(views(path.resolve(base_dir + 'fe-public' + path.sep + 'dist' + path.sep)));
 
 // log request URL:
 app.use(async (ctx, next) => {
