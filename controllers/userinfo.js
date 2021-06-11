@@ -20,18 +20,13 @@ const fn_userinfo = async (ctx, next) => {
         return false;
     }
     try {
-        const sql = `SELECT permissions,name,sys_name,sys_logo FROM user WHERE id=?`
+        const sql = `SELECT * FROM user WHERE id=?`
         const data = await ControlAPI_obj_async(sql, id)
-        // const {
-        //     permissions,
-        //     name
-        // } = JSON.parse(JSON.stringify(result))[0];
         ctx.response.body = {
             code: 200,
             msg: 'success',
             data: Object.assign(data[0], {
                 permissions: JSON.parse(data[0].permissions),
-                // sys_logo: '../customer-upload/' + data[0].sys_logo,
                 'avatar': 'https://i.gtimg.cn/club/item/face/img/8/15918_100.gif',
             }),
         }
