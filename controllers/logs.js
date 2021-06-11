@@ -20,9 +20,11 @@ const fn_getLogs = async (ctx, next) => {
 
 async function readLogs(day) {
     const tar_day = day || (new Date().toLocaleDateString()).split('/').join('-');
-    const log_dir = 'Data' + path.sep + 'logs' + path.sep + tar_day + '_logs.txt'
-    return fs.readFileSync(log_dir, 'utf-8')
+    const log_dir = 'Data' + path.sep + 'logs' + path.sep + tar_day + '_logs.txt';
+    const existed = await fs.existsSync(log_dir)
+    return existed ? fs.readFileSync(log_dir, 'utf-8') : '记录不存在';
 }
+
 
 module.exports = {
     'GET /api/getLogin_logs': fn_getLogs,
