@@ -110,13 +110,11 @@ const fn_resetStock = async (ctx, next) => {
         Object.keys(body).forEach(async (e) => {
             const ele = body[e]
             const sql = `UPDATE goods SET stock=? WHERE uuid=?`;
-            await ControlAPI_obj_async(sql, [{
-                stock: ele.stock - ele.saled
-            }, ele.uuid])
+            await ControlAPI_obj_async(sql, [ele.stock, ele.uuid])
         })
         ctx.response.body = {
             code: 200,
-            msg: '重置库存成功！'
+            msg: '更新库存成功！'
         }
     } catch (err) {
         ctx.response.body = {
