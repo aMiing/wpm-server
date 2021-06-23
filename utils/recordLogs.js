@@ -23,7 +23,7 @@ async function writeLogs(ctx, from = '') {
         }
     } = await getPos(ip);
     fs.appendFile(log_dir,
-        '登录时间：[' + time + ']' + '\n 访问ip:' + ip + '\n 地理位置: ' + province + ',' + city + '\n 来源：' + fromMap[from] || from + '\n----------------------------\n',
+        '登录时间：[' + time + ']' + '\n 访问ip:' + ip + '\n 地理位置: ' + province + ',' + city + '\n 来源：' + from?(fromMap[from]||form):'' + '\n----------------------------\n',
         function (error) {
             error && console.log(error)
         })
