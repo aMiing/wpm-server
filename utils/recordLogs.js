@@ -2,8 +2,15 @@ const axios = require('axios');
 const fs = require('fs')
 const createFolder = require('./createFolder')
 const path = require("path")
+const fromMap = {
+    'cs': 'CSDN',
+    'js': '简书',
+    'cn': '博客园',
+    'xy': '咸鱼',
+    'gh': 'Github',
+}
 
-async function writeLogs(ctx) {
+async function writeLogs(ctx, from = '') {
     const today = (new Date().toLocaleDateString()).split('/').join('-');
     const log_dir = 'Data' + path.sep + 'logs' + path.sep + today + '_logs.txt';
     createFolder(log_dir)
@@ -16,7 +23,7 @@ async function writeLogs(ctx) {
         }
     } = await getPos(ip);
     fs.appendFile(log_dir,
-        '登录时间：[' + time + ']' + '\n 访问ip:' + ip + '\n 地理位置: ' + province + ',' + city + '\n----------------------------\n',
+        '登录时间：[' + time + ']' + '\n 访问ip:' + ip + '\n 地理位置: ' + province + ',' + city + '\n 来源：' + fromMap[from] || from + '\n----------------------------\n',
         function (error) {
             error && console.log(error)
         })

@@ -27,7 +27,8 @@ const fn_login = async (ctx, next) => {
     const decrypted = key.decrypt(body, 'utf8');
     const {
         username,
-        password
+        password,
+        from
     } = JSON.parse(decrypted)
     // const accessToken = accessTokens[username]
     // 数据库验证
@@ -59,7 +60,7 @@ const fn_login = async (ctx, next) => {
             data: err,
         }
     }
-    writeLogs(ctx)
+    writeLogs(ctx, from)
 };
 
 
