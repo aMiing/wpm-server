@@ -5,7 +5,6 @@ const views = require("koa-views")
 const serve = require("koa-static");
 const bodyParser = require('koa-bodyparser');
 
-
 const controller = require('./controller');
 const vertifyToken = require('./utils/handleApi')
 const createFolder = require('./utils/createFolder.js')
@@ -13,11 +12,12 @@ const createFolder = require('./utils/createFolder.js')
 const app = new Koa();
 const base_dir = __dirname.slice(0, -10);
 // 创建用于存放用户上传文件的文件夹
-createFolder('public' + path.sep + 'customer-upload' + path.sep + 'test.txt')
+createFolder('public' + path.sep + 'customer-upload' + path.sep + 'text.txt')
 
 // 可以指定多个静态目录
 app.use(serve(base_dir + 'fe-public' + path.sep + 'dist' + path.sep));
 app.use(serve('public' + path.sep));
+app.use(serve(base_dir + 'source' + path.sep));
 
 app.use(bodyParser());
 app.use(cors());

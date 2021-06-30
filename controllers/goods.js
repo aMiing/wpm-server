@@ -9,7 +9,7 @@ const {
 // 获取商品列表
 const fn_getList = async (ctx, next) => {
     ctx.response.head = "text/plain; charset=UTF-8";
-    const sql = 'SELECT * FROM goods WHERE deleted=1';
+    const sql = 'SELECT * FROM goods WHERE deleted=1 ORDER BY createTime DESC';
     try {
         const data = await ControlAPI_obj_async(sql, null)
         ctx.response.body = {
@@ -29,10 +29,13 @@ const fn_getList = async (ctx, next) => {
 const createGoods = async (ctx, next) => {
     const sql = 'INSERT INTO goods SET ?';
     const row = ctx.request.body;
-    row.uuid = uuidv4();
+    const _row = Array.isArray(row) ? row : [row];
     try {
-        await ControlAPI_obj_async(sql, row)
-        data = await ControlAPI_obj_async(`SELECT * FROM goods WHERE uuid=?`, row.uuid)
+        _row.forEach(async r => {
+            r.uuid = uuidv4();
+            await ControlAPI_obj_async(sql, r)
+        })
+        data = await ControlAPI_obj_async(`SELECT * FROM goods WHERE uuid=?`, _row[0].uuid)
         ctx.response.body = {
             code: 200,
             msg: '新增商品成功！',
@@ -57,6 +60,7 @@ const updateGoods = async (ctx, next) => {
         author,
         stock,
         type,
+        online,
         uuid
     } = row;
     try {
@@ -65,6 +69,7 @@ const updateGoods = async (ctx, next) => {
             price,
             author,
             stock,
+            online,
             type
         }, uuid])
         data = await ControlAPI_obj_async(`SELECT * FROM goods WHERE uuid=?`, uuid)
