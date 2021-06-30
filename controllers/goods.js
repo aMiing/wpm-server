@@ -33,13 +33,13 @@ const createGoods = async (ctx, next) => {
     try {
         _row.forEach(async r => {
             r.uuid = uuidv4();
+            r.online = 1;
             await ControlAPI_obj_async(sql, r)
         })
-        data = await ControlAPI_obj_async(`SELECT * FROM goods WHERE uuid=?`, _row[0].uuid)
         ctx.response.body = {
             code: 200,
             msg: '新增商品成功！',
-            data,
+            data: _row,
         };
     } catch (err) {
         ctx.response.body = {
