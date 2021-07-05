@@ -11,9 +11,9 @@ title 启动管理系统
 @echo begin start mysql server ...
 net start mysql57
 
-TIMEOUT /T 1
-@echo off
-start cmd /k "pm2 stop all" 
+#TIMEOUT /T 1
+#@echo off
+#start cmd /k "pm2 stop all" 
 
 TIMEOUT /T 3
 @echo off
