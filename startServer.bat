@@ -5,10 +5,10 @@ title 启动管理系统
 %1 mshta vbscript:CreateObject("Shell.Application").ShellExecute("cmd.exe","/c %~s0 ::","","runas",1)(window.close)&&exit
 
 #TIMEOUT /T 1
-#@echo begin stop mysql server ...
+#@echo stop mysql server ...
 #net stop mysql57
 
-@echo begin start mysql server ...
+@echo start mysql server ...
 net start mysql57
 
 #TIMEOUT /T 1
@@ -16,7 +16,7 @@ net start mysql57
 #start cmd /k "pm2 stop all" 
 
 TIMEOUT /T 3
-@echo off
+@echo 正在启动服务
 start cmd /k "pm2 start app.js"
 
 @echo 即将通过默认浏览器打开系统...
