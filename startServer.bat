@@ -17,7 +17,7 @@ net start mysql57
 
 TIMEOUT /T 3
 @echo 正在启动服务
-start cmd /k "pm2 start app.js"
+start cmd /k "pm2 start app.js --name='wpm'"
 
 @echo 即将通过默认浏览器打开系统...
 TIMEOUT /T 3
