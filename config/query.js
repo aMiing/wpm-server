@@ -1,4 +1,4 @@
-const pool = require('./db.js')
+const pool = require('./db.js')('wpm')
 // 封装
 const Query = function (sql, params, callback) {
     pool.getConnection(function (err, connection) {

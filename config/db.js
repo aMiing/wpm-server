@@ -4,14 +4,12 @@
 const mysql = require('mysql')
 const sqlConfig = {
     host: 'localhost',
+    // host: '49.235.109.180',
     port: '3306',
     user: 'wpm',
     password: 'wpm123456',
-    database: 'wpm',
     multipleStatements: true,
 }
-const pool = mysql.createPool(sqlConfig)
-
-
+const pool = (db='') => mysql.createPool({...sqlConfig, database: db})
 
 module.exports = pool
