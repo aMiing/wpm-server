@@ -29,7 +29,6 @@ const db_name = "wpm";
             usercode: `admin`,
         },
     });
-    console.log("hasAdmin", hasAdmin);
     !hasAdmin.length &&
         (await modelsMap["user"].create({
             id: `001`,
