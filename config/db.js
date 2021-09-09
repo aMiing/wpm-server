@@ -5,9 +5,9 @@ const mysql = require('mysql')
 const sqlConfig = {
     host: 'localhost',
     port: '3306',
-    user: 'wpm',
-    password: 'wpm123456',
-    database: 'wpm',
+    user: 'root',
+    password: 'root',
+    database: 'wpm_test',
     multipleStatements: true,
 }
 const pool = mysql.createPool(sqlConfig)
