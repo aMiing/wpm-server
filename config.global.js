@@ -5,7 +5,6 @@
 
 const db_config = {
     host: 'localhost',
-    // host: '49.235.109.180',
     port: '3306',
     user: 'root',
     password: 'root',
