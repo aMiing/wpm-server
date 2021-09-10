@@ -21,7 +21,7 @@ module.exports = function (sequelize) {
                 comment: "消费金额",
             },
             salesperson: {
-                type: DataTypes.DOUBLE,
+                type: DataTypes.STRING,
                 allowNull: false,
                 comment: "售货员",
             },
@@ -68,6 +68,7 @@ module.exports = function (sequelize) {
         },
         {
             // 这是其他模型参数
+            timestamps: false,
             tableName: "orders", // 我们需要选择模型名称
             charset: 'utf8',
             collate: 'utf8_general_ci'

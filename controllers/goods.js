@@ -33,6 +33,7 @@ const createGoods = async (ctx, next) => {
     try {
         _row.forEach(async r => {
             r.uuid = uuidv4();
+            r.createTime = new Date();
             r.online = 1;
             await ControlAPI_obj_async(sql, r)
         })
