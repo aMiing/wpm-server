@@ -1,4 +1,4 @@
-const { ControlAPI_obj_async } = require("../config/query");
+const { ControlAPI_obj_async } = require("../database/query");
 const { v4: uuidv4 } = require("uuid");
 
 // 获取订单列表
