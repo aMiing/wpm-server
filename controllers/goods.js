@@ -38,10 +38,10 @@ const createGoods = async (ctx, next) => {
     const sql = 'INSERT INTO goods SET ?';
     const row = ctx.request.body;
     const _row = Array.isArray(row) ? row : [row];
-    console.log(_row)
     try {
         _row.forEach(async r => {
             r.uuid = uuidv4();
+            r.createTime = new Date();
             r.online = 1;
             await ControlAPI_obj_async(sql, r)
         })

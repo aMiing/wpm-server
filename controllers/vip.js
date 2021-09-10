@@ -31,6 +31,7 @@ const create = async (ctx, next) => {
     const sql = 'INSERT INTO vip SET ?';
     row = Object.assign({
         uuid: uuidv4(),
+        createTime: new Date()
     }, row)
     try {
         await ControlAPI_obj_async(sql, row)

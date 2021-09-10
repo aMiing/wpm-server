@@ -37,7 +37,8 @@ module.exports = function(sequelize) {
 
       }, {
         // 这是其他模型参数
-        tableName: 'user', // 我们需要选择模型名称
+            timestamps: false,
+            tableName: 'user', // 我们需要选择模型名称
         charset: 'utf8',
         collate: 'utf8_general_ci'
       });

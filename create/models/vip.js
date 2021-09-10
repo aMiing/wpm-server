@@ -35,6 +35,7 @@ module.exports = function (sequelize) {
         },
         {
             tableName: "vip", // 我们需要选择模型名称
+            timestamps: false,
             charset: 'utf8',
             collate: 'utf8_general_ci'
         }

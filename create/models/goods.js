@@ -45,7 +45,9 @@ module.exports = function (sequelize) {
             // 这是其他模型参数
             tableName: "goods", // 我们需要选择模型名称
             charset: 'utf8',
-            collate: 'utf8_general_ci'
+            collate: 'utf8_general_ci',
+            timestamps: false,
+
         }
     );
 };

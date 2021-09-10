@@ -36,6 +36,7 @@ const createOrder = async (ctx, next) => {
     const purchase = goods.join(",");
     row = Object.assign({}, row, {
         uuid: uuidv4(),
+        createTime: new Date(),
         purchase,
     });
     try {
