@@ -1,14 +1,14 @@
 const { Sequelize } = require("sequelize");
-const db_name = "wpm";
+const {db_config} = require('../config.global')
+const {user, host, port, password, database: db_name} = db_config
 
 const sql = `CREATE DATABASE ${db_name} CHARACTER SET utf8 COLLATE utf8_general_ci`;
 const findDB = `select * 
 from information_schema.SCHEMATA 
 where SCHEMA_NAME = '${db_name}' `;
-
-const sequelize = new Sequelize('', "root", "root", {
-    host: "localhost",
-    port: "3306",
+const sequelize = new Sequelize('', user, password, {
+    host,
+    port,
     dialect: "mysql",
 });
 

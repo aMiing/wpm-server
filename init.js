@@ -1,14 +1,15 @@
 const { Sequelize } = require("sequelize");
-const init_db = require("./init/database.js");
-const models = require("./init/table.js");
-const db_name = "wpm";
+const init_db = require("./create/db.js");
+const models = require("./create/table.js");
+const { db_config } = require("./config.global");
+const { user, host, port, password, database } = db_config;
 // 数据库创建
 
 (async () => {
     await init_db();
-    const sequelize = new Sequelize(db_name, "root", "root", {
-        host: "localhost",
-        port: "3306",
+    const sequelize = new Sequelize(database, user, password, {
+        host: host,
+        port: port,
         dialect: "mysql",
         dialectOptions: {
             charset: "utf8",
@@ -38,4 +39,6 @@ const db_name = "wpm";
             password: `123456`,
             permissions: `["admin"]`,
         }));
+
+    await sequelize.close();
 })();

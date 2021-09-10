@@ -3,7 +3,7 @@ const JwtUtil = require('../utils/jwt');
 
 const {
     ControlAPI_obj_async
-} = require('../config/query')
+} = require('../database/query')
 
 // 获取用户基本信息，返回登录状态
 const fn_userinfo = async (ctx, next) => {

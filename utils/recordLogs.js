@@ -2,7 +2,7 @@ const axios = require("axios");
 const fs = require("fs");
 const createFolder = require("./createFolder");
 const path = require("path");
-const { ControlAPI_obj_async } = require("../config/query");
+const { ControlAPI_obj_async } = require("../database/query");
 const { v4: uuidv4 } = require("uuid");
 const fromMap = {
     cs: "CSDN",

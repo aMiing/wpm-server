@@ -1,6 +1,6 @@
 const {
     ControlAPI_obj_async
-} = require('../config/query')
+} = require('../database/query')
 
 // 获取特权列表
 const getPrivilege = async (ctx, next) => {
