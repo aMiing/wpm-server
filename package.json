@@ -8,7 +8,18 @@
   },
   "author": "amingxiansen 1006934861@qq.com",
   "license": "ISC",
+  "bin": "app.js",
+  "pkg": {
+    "scripts": "controllers/*.js",
+    "assets": [
+      "../fe-public/dist/**/*",
+      "../source/**/*",
+      "public/**/*"
+    ],
+    "outputPath": "../pkgs"
+  },
   "dependencies": {
+    "@koa/multer": "^3.0.0",
     "axios": "^0.21.1",
     "fs": "0.0.1-security",
     "jsencrypt": "^3.2.0",
@@ -28,11 +39,9 @@
     "mysql2": "^2.3.0",
     "node-rsa": "^1.1.1",
     "path": "^0.12.7",
-    "pm2": "^5.1.0",
     "sequelize": "^6.6.5",
     "uuid": "^8.3.2"
   },
-  "devDependencies": {},
   "repository": {
     "type": "git",
     "url": "git+https://github.com/aMiing/wpm-server.git"
@@ -40,5 +49,8 @@
   "bugs": {
     "url": "https://github.com/aMiing/wpm-server/issues"
   },
-  "homepage": "https://github.com/aMiing/wpm-server#readme"
+  "homepage": "https://github.com/aMiing/wpm-server#readme",
+  "devDependencies": {
+    "pkg": "^5.3.2"
+  }
 }

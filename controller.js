@@ -1,25 +1,26 @@
 const fs = require('fs');
 const upload = require('./utils/getpath.js')
+const path = require('path')
 // add url-route in /controllers:
 
 function addMapping(router, mapping) {
-    for (var url in mapping) {
+    for (const url in mapping) {
         if (url.startsWith('GET ')) {
-            var path = url.substring(4);
-            router.get(path, mapping[url]);
+            const _path = url.substring(4);
+            router.get(_path, mapping[url]);
         } else if (url.startsWith('POST ')) {
-            var path = url.substring(5);
-            if (path.startsWith('/api/upload/')) {
-                router.post(path, upload.single('file'), mapping[url]);
+            const _path = url.substring(5);
+            if (_path.startsWith('/api/upload/')) {
+                router.post(_path, upload.single('file'), mapping[url]);
             } else {
-                router.post(path, mapping[url]);
+                router.post(_path, mapping[url]);
             }
         } else if (url.startsWith('PUT ')) {
-            var path = url.substring(4);
-            router.put(path, mapping[url]);
+            const _path = url.substring(4);
+            router.put(_path, mapping[url]);
         } else if (url.startsWith('DELETE ')) {
-            var path = url.substring(7);
-            router.del(path, mapping[url]);
+            const _path = url.substring(7);
+            router.del(_path, mapping[url]);
         } else {
             console.log(`invalid URL: ${url}`);
         }
@@ -27,10 +28,11 @@ function addMapping(router, mapping) {
 }
 
 function addControllers(router, dir) {
-    fs.readdirSync(__dirname + '/' + dir).filter((f) => {
+    const base_dir = path.join(__dirname, dir);
+    fs.readdirSync(base_dir).filter((f) => {
         return f.endsWith('.js');
     }).forEach((f) => {
-        let mapping = require(__dirname + '/' + dir + '/' + f);
+        let mapping = require((path.resolve(base_dir, f)));
         addMapping(router, mapping);
     });
 }
