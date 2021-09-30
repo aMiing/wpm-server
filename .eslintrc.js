@@ -1,0 +1,32 @@
+module.exports = {
+    root: true,
+    env: { node: true },
+    parser: 'vue-eslint-parser',
+    parserOptions: { ecmaVersion: 2020, parser: '@typescript-eslint/parser' },
+    extends: [
+        'plugin:jsx-a11y/recommended',
+        'plugin:vue/recommended',
+        'eslint:recommended',
+        'plugin:prettier/recommended',
+        'plugin:@typescript-eslint/recommended',
+        'prettier',
+    ],
+    rules: {
+        'no-console': process.env.NODE_ENV === 'production' ? 2 : 0,
+        'no-debugger': process.env.NODE_ENV === 'production' ? 2 : 0,
+        '@typescript-eslint/no-empty-function': [
+            'error',
+            { allow: ['arrowFunctions'] },
+        ],
+        'vue/require-default-prop': 0,
+        'vue/no-v-model-argument': 0,
+        'vue/no-mutating-props': 0,
+        '@typescript-eslint/ban-types': 0,
+        '@typescript-eslint/no-this-alias': 0,
+        '@typescript-eslint/explicit-module-boundary-types': 0,
+        'vue/no-lone-template': 0,
+        '@typescript-eslint/no-var-requires': 0,
+        '@typescript-eslint/no-explicit-any': 0,
+        '@typescript-eslint/ban-ts-comment': 0,
+    },
+};

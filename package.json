@@ -4,7 +4,10 @@
   "description": "wpm商品管理系统后端服务",
   "main": "index.js",
   "scripts": {
-    "test": "echo \"Error: no test specified\" && exit 1"
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "lint": "eslint --fix --ext .js,./controller,./create,./utils,./database",
+    "pkg:mac": "pkg package.json -t macos",
+    "pkg:win": "pkg package.json -t win"
   },
   "author": "amingxiansen 1006934861@qq.com",
   "license": "ISC",
