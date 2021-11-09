@@ -11,6 +11,10 @@ module.exports = function (sequelize) {
                 allowNull: false,
                 primaryKey: true,
             },
+            qrcode: {
+                type: DataTypes.STRING,
+                allowNull: true,
+            },
             name: {
                 type: DataTypes.STRING,
                 allowNull: false,
