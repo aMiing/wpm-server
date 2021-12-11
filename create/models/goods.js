@@ -11,6 +11,9 @@ module.exports = function (sequelize) {
                 allowNull: false,
                 primaryKey: true,
             },
+            qrcode: {
+                type: DataTypes.STRING,
+            },
             name: {
                 type: DataTypes.STRING,
                 allowNull: false,
@@ -39,7 +42,14 @@ module.exports = function (sequelize) {
 
             },
             type: DataTypes.STRING,
-            unit: DataTypes.STRING,
+            unit: {
+                type: DataTypes.STRING,
+                defaultValue: '个'
+            },
+            measureType: {
+                type: DataTypes.STRING,
+                comment: 'count: 计数； weight: 称重'
+            }
         },
         {
             // 这是其他模型参数

@@ -7,22 +7,24 @@ const {
 
 
 // 获取商品列表
-const fn_getList = async (ctx, next) => {
+const fn_getList = async (ctx) => {
     //没有传的情况下默认10条
-    let pageSize = typeof(ctx.request.body.pageSize) == "undefined" ? 10 : ctx.request.body.pageSize;
-    let pageNo =typeof(ctx.request.body.pageNo) == "undefined"? 0 : ctx.request.body.pageNo - 1;
+    let pageSize = typeof (ctx.request.body.pageSize) == "undefined" ? 10 : ctx.request.body.pageSize;
+    let pageNo = typeof (ctx.request.body.pageNo) == "undefined" ? 0 : ctx.request.body.pageNo - 1;
+    const type = ctx.request.body.type || null;
+    const type_sql = (type ? ` AND FIND_IN_SET("${type}", type)`:'')
     ctx.response.head = "text/plain; charset=UTF-8";
-    const sql = 'SELECT * FROM goods WHERE deleted=1 ORDER BY createTime DESC limit '+pageNo*pageSize+','+pageSize;
-    const total_sql = 'SELECT count(*) FROM goods WHERE deleted=1'; //返回总条数
+    const total_sql = `SELECT count(*) FROM goods WHERE deleted=1` + type_sql ; //返回总条数
+    const sql = `SELECT * FROM goods WHERE deleted=1 ${type_sql} ORDER BY createTime DESC limit ${pageNo*pageSize},` + pageSize;
     try {
         const data = await ControlAPI_obj_async(sql, null)
         const total = await ControlAPI_obj_async(total_sql, null)
         ctx.response.body = {
             code: 200,
             msg: '获取商品列表成功！',
-            data:{
+            data: {
                 data,
-                total:total[0]["count(*)"]
+                total: total[0]["count(*)"]
             },
         };
     } catch (err) {
