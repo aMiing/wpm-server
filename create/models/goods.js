@@ -13,6 +13,7 @@ module.exports = function (sequelize) {
             },
             qrcode: {
                 type: DataTypes.STRING,
+                allowNull: true,
             },
             name: {
                 type: DataTypes.STRING,
