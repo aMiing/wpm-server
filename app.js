@@ -10,19 +10,17 @@ const vertifyToken = require('./utils/handleApi');
 const createFolder = require('./utils/createFolder.js');
 // parse request body:
 const app = new Koa();
-const base_dir = path.join(__dirname, '../');
-const dist_dir = path.join(__dirname, '../fe-public/dist');
+
 // 创建用于存放用户上传文件的文件夹
-createFolder('public' + path.sep + 'customer-upload' + path.sep + 'text.txt');
+createFolder('Data' + path.sep + 'customer-upload' + path.sep + 'text');
 
 // 可以指定多个静态目录
-app.use(serve(dist_dir));
 app.use(serve('public'));
-app.use(serve(path.join(base_dir, 'source')));
+app.use(serve('source'));
 
 app.use(bodyParser());
 app.use(cors());
-app.use(views(dist_dir));
+app.use(views('public'));
 
 // log request URL:
 app.use(async (ctx, next) => {
