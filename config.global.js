@@ -4,14 +4,13 @@
  */
 
 const db_config = {
-    host: 'localhost',
-    port: '3306',
-    user: 'root',
-    password: 'root',
-    database: 'wpm',
+  host: 'localhost',
+  port: '3306',
+  user: 'root',
+  password: '1006934861wcm!',
+  database: 'wpm',
 };
 
-
 module.exports = {
-    db_config,
-}
+  db_config,
+};

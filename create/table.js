@@ -1,13 +1,14 @@
 const fs = require('fs');
 
-
-module.exports= async (sequelize) => {
-    const models = {}
-    fs.readdirSync(__dirname + '/models').filter((f) => {
-        return f.endsWith('.js');
-    }).forEach(async (f) => {
-        const modelFactory = require(__dirname + '/models/' + f);
-        models[f.slice(0, -3)] = await modelFactory(sequelize)
+module.exports = async (sequelize, name) => {
+  const models = {};
+  fs.readdirSync(__dirname + '/models')
+    .filter(f => {
+      return f.endsWith('.js');
+    })
+    .forEach(async f => {
+      const modelFactory = require(__dirname + '/models/' + f);
+      models[f.slice(0, -3)] = await modelFactory(sequelize, name);
     });
-    return models
-}
+  return models;
+};

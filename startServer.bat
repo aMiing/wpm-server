@@ -9,7 +9,7 @@ title 启动管理系统
 #net stop mysql57
 
 @echo start mysql server ...
-net start mysql57
+net start mysql
 
 #TIMEOUT /T 1
 #@echo off

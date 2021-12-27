@@ -1,46 +1,46 @@
-const {
-    ControlAPI_obj_async
-} = require('../database/query')
+const { ControlAPI_obj_async } = require('../database/query');
+
+const vertifyToken = require('../utils/handleApi');
+const tableName = ctx => vertifyToken(ctx) + '_privilege';
 
 // 获取特权列表
 const getPrivilege = async (ctx, next) => {
-    const sql = 'SELECT * FROM privilege WHERE id=1';
-    try {
-        const data = await ControlAPI_obj_async(sql, null)
-        ctx.response.body = {
-            code: 200,
-            msg: '获取特权列表成功！',
-            data,
-        };
-    } catch (err) {
-        ctx.response.body = {
-            code: 500,
-            msg: 'error',
-            data: err,
-        };
-    }
+  const sql = `SELECT * FROM ${tableName(ctx)} WHERE id=1`;
+  try {
+    const data = await ControlAPI_obj_async(sql, null);
+    ctx.response.body = {
+      code: 200,
+      msg: '获取特权列表成功！',
+      data,
+    };
+  } catch (err) {
+    ctx.response.body = {
+      code: 500,
+      msg: 'error',
+      data: err,
+    };
+  }
 };
 // 更新
 const setPrivilege = async (ctx, next) => {
-    const sql = `UPDATE privilege SET ? WHERE id=1`;
-    const row = ctx.request.body;
-    try {
-        await ControlAPI_obj_async(sql, row)
-        ctx.response.body = {
-            code: 200,
-            msg: '更新成功！',
-        };
-    } catch (err) {
-        ctx.response.body = {
-            code: 500,
-            msg: 'error',
-            data: err,
-        };
-    }
+  const sql = `UPDATE ${tableName(ctx)} SET ? WHERE id=1`;
+  const row = ctx.request.body;
+  try {
+    await ControlAPI_obj_async(sql, row);
+    ctx.response.body = {
+      code: 200,
+      msg: '更新成功！',
+    };
+  } catch (err) {
+    ctx.response.body = {
+      code: 500,
+      msg: 'error',
+      data: err,
+    };
+  }
 };
 
-
 module.exports = {
-    'GET /api/privilege/getPrivilege': getPrivilege,
-    'POST /api/privilege/setPrivilege': setPrivilege,
+  'GET /api/privilege/getPrivilege': getPrivilege,
+  'POST /api/privilege/setPrivilege': setPrivilege,
 };

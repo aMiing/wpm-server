@@ -21,12 +21,12 @@ app.use(serve('source'));
 app.use(bodyParser());
 app.use(cors());
 app.use(views('public'));
-
 // log request URL:
 app.use(async (ctx, next) => {
-  const active = vertifyToken(ctx);
-  if (active) await next();
-  else {
+  const scope = vertifyToken(ctx);
+  if (scope) {
+    await next();
+  } else {
     ctx.response.body = {
       code: 403,
       msg: '登陆过期，请重新登录！',

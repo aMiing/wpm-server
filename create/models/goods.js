@@ -1,12 +1,13 @@
-const { DataTypes } = require('sequelize');
+const { DataTypes, Sequelize } = require('sequelize');
 
-module.exports = function (sequelize) {
+module.exports = function (sequelize, scope) {
   return sequelize.define(
     'goods',
     {
       // 在这里定义模型属性
       uuid: {
-        type: DataTypes.STRING,
+        type: DataTypes.UUID,
+        defaultValue: Sequelize.UUIDV4,
         allowNull: false,
         primaryKey: true,
       },
@@ -55,7 +56,7 @@ module.exports = function (sequelize) {
     },
     {
       // 这是其他模型参数
-      tableName: 'goods', // 我们需要选择模型名称
+      tableName: (scope ? scope + '_' : '') + 'goods', // 我们需要选择模型名称
       charset: 'utf8',
       collate: 'utf8_general_ci',
       timestamps: false,

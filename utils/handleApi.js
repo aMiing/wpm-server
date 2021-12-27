@@ -5,23 +5,30 @@
  */
 // 引入jwt token工具
 const JwtUtil = require('../utils/jwt');
-const noRegister = ['/api/login', '/api/login', '/api/publicKey', '/api/getLogin_logs', '/api/upload/uploadImg']
-const handleApi = (ctx) => {
-    if (!noRegister.some(e => ctx.request.url.startsWith(e))) {
-        try {
-            const token = ctx.request.headers.accesstoken
-            let jwt = new JwtUtil(token);
-            let id = jwt.verifyToken();
-            if (id == 'err') {
-                return false;
-            } else {
-                return true;
-            }
-        } catch (err) {
-            return false;
-        }
+const noRegister = [
+  '/api/login',
+  '/api/login',
+  '/api/publicKey',
+  '/api/getLogin_logs',
+  '/api/upload/uploadImg',
+  '/api/register',
+];
+const handleApi = ctx => {
+  if (!noRegister.some(e => ctx.request.url.startsWith(e))) {
+    try {
+      const token = ctx.request.headers.accesstoken;
+      const jwt = new JwtUtil(token);
+      const data = jwt.verifyToken();
+      const { id, role, scope } = data;
+      if (id == 'err') {
+        return false;
+      } else {
+        return scope;
+      }
+    } catch (err) {
+      return false;
     }
-    return true
-
-}
-module.exports = handleApi
+  }
+  return true;
+};
+module.exports = handleApi;

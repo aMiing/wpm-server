@@ -1,32 +1,26 @@
-const accessTokens = {
-    admin: 'admin-accessToken',
-    editor: 'editor-accessToken',
-    test: 'test-accessToken',
-}
+const createDB = require('../init');
+const { ControlAPI_obj_async } = require('../database/query');
+const { v4 } = require('uuid');
 
-
-const fn_register = async (ctx, next) => {
-    let {
-        password,
-        phone,
-        phoneCode,
-        username,
-    } = ctx.request.body;
-    const accessToken = accessTokens[username]
-    if (accessToken) {
-        ctx.response.body = {
-            code: 500,
-            msg: '帐户已存在，换个用户名试试吧！',
-        }
-    } else {
-        ctx.response.body = {
-            code: 200,
-            msg: '创建账号成功！请登录！'
-        }
-    }
+const fn_register = async ctx => {
+  const { id = v4(), password, phone, usercode, nickName } = ctx.request.query;
+  const scope = usercode;
+  const sql = 'INSERT INTO wpm.user SET ?';
+  try {
+    await ControlAPI_obj_async(sql, { id, password, phone, usercode, nickName, scope });
+    await createDB(scope);
+    ctx.response.body = {
+      code: 200,
+      msg: '创建账号成功！请登录！',
+    };
+  } catch (error) {
+    ctx.response.body = {
+      code: 500,
+      msg: error || '帐户已存在，换个用户名试试吧！',
+    };
+  }
 };
 
-
 module.exports = {
-    'POST /api/register': fn_register,
+  'GET /api/register': fn_register,
 };
