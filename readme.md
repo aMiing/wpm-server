@@ -1,6 +1,6 @@
 ## 运行准备
 
-- 下载安装 nodejs[!https://nodejs.org/zh-cn/] 环境, 推荐 v12+
+- 下载安装 nodejs[!https://nodejs.org/zh-cn/] 环境, 推荐 v12 ~ v14 之间版本
 
 ## 数据库软件下载
 
