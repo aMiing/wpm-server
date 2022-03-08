@@ -10,6 +10,8 @@ const fromMap = {
   cn: '博客园',
   xy: '咸鱼',
   gh: 'Github',
+  jj: '掘金',
+  nl: '自定义',
 };
 
 async function writeLogs(ctx, from = '') {
@@ -42,10 +44,11 @@ async function recordLogs(ctx, from = '') {
   } = await getPos(ip);
   const row = {
     ip,
-    province: JSON.stringify(province),
-    city: JSON.stringify(city),
+    province,
+    city,
     from: fromMap[from] || from,
     id: uuidv4(),
+    time: new Date(),
   };
   const sql = 'INSERT INTO logs SET ?';
   try {
@@ -79,7 +82,8 @@ function getClientIP(req) {
 }
 
 function getPos(ip) {
-  const url = 'https://restapi.amap.com/v5/ip?ip=' + ip + '&key=0242a619c9de44968f3cb7a4ce02f687';
+  const url =
+    'https://restapi.amap.com/v5/ip?ip=' + ip + '&key=0242a619c9de44968f3cb7a4ce02f687&type=4';
   return axios.get(url);
 }
 
